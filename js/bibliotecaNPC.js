@@ -24,6 +24,7 @@ let estadoDevolucion = [
   true,
 ];
 
+//1. Mostrar todos los préstamos, días y estado.
 function mostrarPrestamos() {
   for (let i = 0; i < tituloLibro.length; i++) {
     console.log(
@@ -35,8 +36,9 @@ function mostrarPrestamos() {
     );
   }
 }
-//mostrarPrestamos()
 
+
+//2. Contar cuántos fueron devueltos a tiempo y cuántos no.
 function devolucionLibros() {
   let devueltos = 0;
   let noDevueltos = 0;
@@ -49,12 +51,108 @@ function devolucionLibros() {
     }
   }
 
-  console.log("Libros devueltos: " + devueltos);
-  console.log("Libros no devueltos: " + noDevueltos);
+  return console.log(
+    `Libros devueltos: ${devueltos} Libros no devueltos: ${noDevueltos}`
+  );
 }
 
-//devolucionLibros();
 
-function diasLibrosDevueltos (){
-    
+
+//3. Calcular el total de días en devoluciones a tiempo.
+function diasLibrosDevueltos() {
+  let diasEfectivos = 0;
+  for (let i = 0; i < cantDiasPrestamo.length; i++) {
+    if (estadoDevolucion[i] === true) {
+      diasEfectivos += cantDiasPrestamo[i];
+    }
+  }
+  return console.log(
+    `El total de dias con devoluciones a tiempo es de: ${diasEfectivos}`
+  );
 }
+
+
+
+//4. Calcular el promedio de días prestados.
+function promedioDiasPrestados() {
+  let diasEfectivos = 0;
+  let cantidadDias = 0;
+  for (let i = 0; i < cantDiasPrestamo.length; i++) {
+    diasEfectivos += cantDiasPrestamo[i];
+    cantidadDias++;
+  }
+  return console.log(
+    `El promedio de los dias prestadoses de: ${diasEfectivos / cantidadDias}`
+  );
+}
+
+
+
+//5. Mostrar el primer libro no devuelto a tiempo.
+
+function libroSinDevolver() {
+  for (let i = 0; i < estadoDevolucion.length; i++) {
+    if (estadoDevolucion[i] === false) {
+      return console.log(`Primer libro no devuelto a tiempo: "${tituloLibro[i]}"`);
+    }
+  }
+}
+
+
+//6. Crear una lista de títulos devueltos a tiempo. 
+
+function devueltosConTiempo (){
+let librosEntregados = []
+for (let i = 0; i < tituloLibro.length; i++) {
+  if (estadoDevolucion[i] == true){
+    librosEntregados.push(tituloLibro[i]);
+  }
+  
+  
+}
+return console.log(`Estos son los libros que se han devuelto a tiempo: ${librosEntregados}`);
+
+}
+
+
+//7. Aumentar 2 días a los libros con retraso.  
+
+function aumentoRetraso (){
+  for (let i = 0; i < estadoDevolucion.length; i++){
+      if (estadoDevolucion[i] === false) {
+    cantDiasPrestamo[i] += 2
+  }
+}
+  return cantDiasPrestamo
+  
+}
+
+
+function listaActualizada (){
+  let librosRetraso = aumentoRetraso(cantDiasPrestamo)
+  for (let i = 0; i < tituloLibro.length; i++) {
+    console.log(
+      `Prestamo #${i + 1}: Libro prestado: ${
+        tituloLibro[i]
+      } - # de dias de prestamo: ${
+        cantDiasPrestamo[i]
+      } dias - Estado de devolucion: ${estadoDevolucion[i]}`
+    );
+  }
+}
+
+
+mostrarPrestamos()
+console.log("------------------------------------------------------------------------");
+
+devolucionLibros();
+console.log("------------------------------------------------------------------------");
+diasLibrosDevueltos()
+console.log("------------------------------------------------------------------------");
+promedioDiasPrestados()
+console.log("------------------------------------------------------------------------");
+libroSinDevolver();
+console.log("------------------------------------------------------------------------");
+devueltosConTiempo()
+console.log("------------------------------------------------------------------------");
+listaActualizada()
