@@ -42,17 +42,17 @@ export function devolucionLibros() {
   let librosDevueltos = estadoDevolucion.filter(function (libro) {
     return libro == true;
   });
-  let librosNoDevueltos = estadoDevolucion.filter(function (libro) {
+  let librosEntregados = estadoDevolucion.filter(function (libro) {
     return libro == false;
   });
   console.log(
-    `Libros devueltos: ${librosDevueltos.length} --- Libros no devueltos: ${librosNoDevueltos.length}`
+    `Libros devueltos: ${librosDevueltos.length} --- Libros no devueltos: ${librosEntregados.length}`
   );
 }
 
 //3. Calcular el total de días en devoluciones a tiempo.
 export function cantDiasDevueltos() {
-  let diasEfectivos = cantDiasPrestamo.reduce(function (
+  let diasEntregados = cantDiasPrestamo.reduce(function (
     acumuladorDias,
     dia,
     i
@@ -64,20 +64,20 @@ export function cantDiasDevueltos() {
     }
   });
   console.log(
-    `El total de dias con devoluciones a tiempo es de: ${diasEfectivos} dias`
+    `El total de dias con devoluciones a tiempo es de: ${diasEntregados} dias`
   );
 }
 
 //4. Calcular el promedio de días prestados.
 export function promedioDiasPrestados() {
-  let diasEfectivos = 0;
+  let diasEntregados = 0;
   let cantidadDias = 0;
   for (let i = 0; i < cantDiasPrestamo.length; i++) {
-    diasEfectivos += cantDiasPrestamo[i];
+    diasEntregados += cantDiasPrestamo[i];
     cantidadDias++;
   }
   return console.log(
-    `El promedio de la cantidad de dias por libros prestados es de: ${diasEfectivos / cantidadDias} dias`
+    `El promedio de la cantidad de dias por libros prestados es de: ${diasEntregados / cantidadDias} dias`
   );
 }
 
@@ -101,6 +101,7 @@ export function devueltosConTiempo() {
     `Estos son los libros que se han devuelto a tiempo: ${librosEntregados}`
   );
 }
+devueltosConTiempo()
 
 //7. Aumentar 2 días a los libros con retraso.
 export function aumentoRetraso() {
