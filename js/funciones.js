@@ -25,7 +25,7 @@ let estadoDevolucion = [
 ];
 
 //1. Mostrar todos los préstamos, días y estado.
-function mostrarPrestamos() {
+export function mostrarPrestamos() {
   for (let i = 0; i < tituloLibro.length; i++) {
     console.log(
       `Prestamo #${i + 1}: Libro prestado: ${
@@ -37,44 +37,39 @@ function mostrarPrestamos() {
   }
 }
 
-
 //2. Contar cuántos fueron devueltos a tiempo y cuántos no.
-function devolucionLibros() {
-  let devueltos = 0;
-  let noDevueltos = 0;
-
-  for (let i = 0; i < estadoDevolucion.length; i++) {
-    if (estadoDevolucion[i] === true) {
-      devueltos++;
-    } else {
-      noDevueltos++;
-    }
-  }
-
-  return console.log(
-    `Libros devueltos: ${devueltos} Libros no devueltos: ${noDevueltos}`
+export function devolucionLibros() {
+  let librosDevueltos = estadoDevolucion.filter(function (libro) {
+    return libro == true;
+  });
+  let librosNoDevueltos = estadoDevolucion.filter(function (libro) {
+    return libro == false;
+  });
+  console.log(
+    `Libros devueltos: ${librosDevueltos.length} --- Libros no devueltos: ${librosNoDevueltos.length}`
   );
 }
-
-
 
 //3. Calcular el total de días en devoluciones a tiempo.
-function diasLibrosDevueltos() {
-  let diasEfectivos = 0;
-  for (let i = 0; i < cantDiasPrestamo.length; i++) {
+export function cantDiasDevueltos() {
+  let diasEfectivos = cantDiasPrestamo.reduce(function (
+    acumuladorDias,
+    dia,
+    i
+  ) {
     if (estadoDevolucion[i] === true) {
-      diasEfectivos += cantDiasPrestamo[i];
+      return (acumuladorDias += dia);
+    } else {
+      return acumuladorDias;
     }
-  }
-  return console.log(
-    `El total de dias con devoluciones a tiempo es de: ${diasEfectivos}`
+  });
+  console.log(
+    `El total de dias con devoluciones a tiempo es de: ${diasEfectivos} dias`
   );
 }
 
-
-
 //4. Calcular el promedio de días prestados.
-function promedioDiasPrestados() {
+export function promedioDiasPrestados() {
   let diasEfectivos = 0;
   let cantidadDias = 0;
   for (let i = 0; i < cantDiasPrestamo.length; i++) {
@@ -82,54 +77,44 @@ function promedioDiasPrestados() {
     cantidadDias++;
   }
   return console.log(
-    `El promedio de los dias prestadoses de: ${diasEfectivos / cantidadDias}`
+    `El promedio de la cantidad de dias por libros prestados es de: ${diasEfectivos / cantidadDias} dias`
   );
 }
 
-
-
 //5. Mostrar el primer libro no devuelto a tiempo.
+export function primerLibro() {
+  const libro = tituloLibro.find((_, i) => estadoDevolucion[i] === false);
 
-function libroSinDevolver() {
-  for (let i = 0; i < estadoDevolucion.length; i++) {
+  if (libro) {
+    console.log(`Primer libro no devuelto es: ${libro}`);
+  } else {
+    console.log("Todos los libros fueron devueltos a tiempo.");
+  }
+}
+
+//6. Crear una lista de títulos devueltos a tiempo.
+export function devueltosConTiempo() {
+  let librosEntregados = tituloLibro.filter(
+    (_, i) => estadoDevolucion[i] === false
+  );
+  console.log(
+    `Estos son los libros que se han devuelto a tiempo: ${librosEntregados}`
+  );
+}
+
+//7. Aumentar 2 días a los libros con retraso.
+export function aumentoRetraso() {
+  cantDiasPrestamo.forEach(function (dias, i) {
     if (estadoDevolucion[i] === false) {
-      return console.log(`Primer libro no devuelto a tiempo: "${tituloLibro[i]}"`);
+      cantDiasPrestamo[i] += 2;
+      return dias;
     }
-  }
+  });
 }
 
-
-//6. Crear una lista de títulos devueltos a tiempo. 
-
-function devueltosConTiempo (){
-let librosEntregados = []
-for (let i = 0; i < tituloLibro.length; i++) {
-  if (estadoDevolucion[i] == true){
-    librosEntregados.push(tituloLibro[i]);
-  }
-  
-  
-}
-return console.log(`Estos son los libros que se han devuelto a tiempo: ${librosEntregados}`);
-
-}
-
-
-//7. Aumentar 2 días a los libros con retraso.  
-
-function aumentoRetraso (){
-  for (let i = 0; i < estadoDevolucion.length; i++){
-      if (estadoDevolucion[i] === false) {
-    cantDiasPrestamo[i] += 2
-  }
-}
-  return cantDiasPrestamo
-  
-}
-
-
-function listaActualizada (){
-  let librosRetraso = aumentoRetraso(cantDiasPrestamo)
+//Listado Actualizado
+export function listaActualizada() {
+  aumentoRetraso(cantDiasPrestamo);
   for (let i = 0; i < tituloLibro.length; i++) {
     console.log(
       `Prestamo #${i + 1}: Libro prestado: ${
@@ -140,19 +125,3 @@ function listaActualizada (){
     );
   }
 }
-
-
-mostrarPrestamos()
-console.log("------------------------------------------------------------------------");
-
-devolucionLibros();
-console.log("------------------------------------------------------------------------");
-diasLibrosDevueltos()
-console.log("------------------------------------------------------------------------");
-promedioDiasPrestados()
-console.log("------------------------------------------------------------------------");
-libroSinDevolver();
-console.log("------------------------------------------------------------------------");
-devueltosConTiempo()
-console.log("------------------------------------------------------------------------");
-listaActualizada()
