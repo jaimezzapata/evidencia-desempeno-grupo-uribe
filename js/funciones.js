@@ -1,4 +1,4 @@
-let tituloLibro = [
+const tituloLibro = [
   "Cien años de soledad",
   "El Principito",
   "1984",
