@@ -95,27 +95,26 @@ export function primerLibro() {
 //6. Crear una lista de títulos devueltos a tiempo.
 export function devueltosConTiempo() {
   let librosEntregados = tituloLibro.filter(
-    (_, i) => estadoDevolucion[i] === false
+    (_, i) => estadoDevolucion[i] === true
   );
   console.log(
     `Estos son los libros que se han devuelto a tiempo: ${librosEntregados}`
   );
 }
-devueltosConTiempo()
+
 
 //7. Aumentar 2 días a los libros con retraso.
 export function aumentoRetraso() {
   cantDiasPrestamo.forEach(function (dias, i) {
     if (estadoDevolucion[i] === false) {
       cantDiasPrestamo[i] += 2;
-      return dias;
     }
   });
 }
-
+ 
 //Listado Actualizado
 export function listaActualizada() {
-  aumentoRetraso(cantDiasPrestamo);
+  aumentoRetraso();
   for (let i = 0; i < tituloLibro.length; i++) {
     console.log(
       `Prestamo #${i + 1}: Libro prestado: ${
