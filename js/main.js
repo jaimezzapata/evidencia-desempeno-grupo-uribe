@@ -10,12 +10,11 @@ function registrarUsuarios(cantidad) {
         let tiempo = Number(prompt(`Ingrese los minutos entrenados por ${nombre}:`));
         let cumplio = prompt(`¿${nombre} cumplió su meta semanal? (si/no):`).toLowerCase() === "si";
 
-        nombresUsuario.push(nombre);
-        minutosUsuario.push(tiempo);
+        nombres.push(nombre);
+        minutos.push(tiempo);
         cumplioMeta.push(cumplio);
     }
 }
-
 
 function mostrarRegistros() {
     console.log("=== Registros de Entrenamiento ===");
@@ -60,6 +59,7 @@ function promedioMinutos() {
     console.log(`Promedio general de minutos entrenados: ${promedio.toFixed(2)}`);
 }
 
+
 function primerNoCumplio() {
     for (let i = 0; i < cumplioMeta.length; i++) {
         if (!cumplioMeta[i]) {
@@ -70,6 +70,7 @@ function primerNoCumplio() {
     console.log("Todos los usuarios cumplieron la meta.");
 }
 
+
 function listarCumplieron() {
     console.log("=== Usuarios que cumplieron la meta ===");
     for (let i = 0; i < nombres.length; i++) {
@@ -79,14 +80,14 @@ function listarCumplieron() {
     }
 }
 
-function minutosNoCumplieron() {
+
+function aumentarMinutosNoCumplieron() {
     for (let i = 0; i < minutos.length; i++) {
         if (!cumplioMeta[i]) {
             minutos[i] += 20;
         }
     }
 }
-
 
 let cantidadRegistros = Number(prompt("¿Cuántos registros desea ingresar?"));
 registrarUsuarios(cantidadRegistros);
@@ -98,6 +99,6 @@ promedioMinutos();
 primerNoCumplio();
 listarCumplieron();
 
-minutosNoCumplieron();
+aumentarMinutosNoCumplieron();
 console.log("\n=== Registros después de aumentar minutos ===");
 mostrarRegistros();
